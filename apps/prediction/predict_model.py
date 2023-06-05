@@ -50,8 +50,8 @@ class PredictModel:
         try:
             self.logger.info('Start of Batch Prediction from Model...')
             self.logger.info('run_id:' + str(self.run_id))
-            self.loadValidate.validate_predictset()                    # validation and transformation
-            self.X = self.preProcess.preprocess_predictset()           # preprocessing activity
+            self.loadValidate.validate_predictset()  # validation and transformation
+            self.X = self.preProcess.preprocess_predictset()  # preprocessing activity
             kmeans = self.fileOperation.load_model('KMeans')
             clusters = kmeans.predict(self.X.drop(['empid'], axis=1))
             self.X['clusters'] = clusters
@@ -90,7 +90,7 @@ class PredictModel:
         try:
             self.logger.info('Start of Single Prediction from Model...')
             self.logger.info('run_id:' + str(self.run_id))
-            self.X = self.preProcess.preprocess_predict(data)            # preprocessing activity
+            self.X = self.preProcess.preprocess_predict(data)  # preprocessing activity
             kmeans = self.fileOperation.load_model('KMeans')
             clusters = kmeans.predict(self.X.drop(['empid'], axis=1))
             self.X['clusters'] = clusters

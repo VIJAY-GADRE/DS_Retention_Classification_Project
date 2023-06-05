@@ -1,11 +1,13 @@
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.cluster import KMeans
 from apps.core.logger import Logger
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 from kneed import KneeLocator
+from sklearn.model_selection import train_test_split
 from apps.core.file_operation import FileOperation
+from apps.tuning.model_tuner import ModelTuner
 from apps.ingestion.load_validate import LoadValidate
 from apps.preprocess.preprocessor import Preprocessor
+
 
 class KMeansCluster:
     """
@@ -51,7 +53,7 @@ class KMeansCluster:
         try:
             self.logger.info('Start of Elbow Plotting...')
             for i in range(1, 11):
-                kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
+                kmeans = KMeans(n_clusters=i, random_state=42)
                 kmeans.fit(data)
                 wcss.append(kmeans.inertia_)
             plt.plot(range(1, 11), wcss)

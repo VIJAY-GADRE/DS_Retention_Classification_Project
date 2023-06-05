@@ -28,7 +28,7 @@ class Logger:
         if log_file_name == 'training':
             file_handler = logging.FileHandler('logs/training_logs/train_log_' + str(run_id) + '.log')
         else:
-            file_handler = logging.FileHandler('logs/prediction_logs/predict_log' + str(run_id) + '.log')
+            file_handler = logging.FileHandler('logs/prediction_logs/predict_log_' + str(run_id) + '.log')
 
         formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
         file_handler.setFormatter(formatter)
@@ -38,4 +38,4 @@ class Logger:
         self.logger.info(message)
 
     def exception(self, message):
-        self.logger.info(message)
+        self.logger.exception(message)

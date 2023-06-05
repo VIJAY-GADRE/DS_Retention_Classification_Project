@@ -26,7 +26,6 @@ class FileOperation:
     """
 
     def __init__(self, run_id, data_path, mode):
-        self.file = None
         self.run_id = run_id
         self.data_path = data_path
         self.logger = Logger(self.run_id, 'FileOperation', mode)
@@ -47,7 +46,7 @@ class FileOperation:
         """
         try:
             self.logger.info('Start of Save Models...')
-            path = os.path.join('apps/models', file_name)  # create separate directory for each cluster
+            path = os.path.join('apps/models/', file_name)  # create separate directory for each cluster
             if os.path.isdir(path):
                 shutil.rmtree('apps/models')
                 os.makedirs(path)
@@ -62,8 +61,8 @@ class FileOperation:
             return 'success'
 
         except Exception as e:
-            self.logger.exception('Exception raised while Save Models: %s' % e)
-            raise e
+            self.logger.exception('Exception raised while Save Models: %s' % str(e))
+            raise Exception()
 
     def load_model(self, file_name):
         """
@@ -86,8 +85,8 @@ class FileOperation:
                 return pickle.load(f)
 
         except Exception as e:
-            self.logger.exception('Exception raised while Loading Model: %s' % e)
-            raise e
+            self.logger.exception('Exception raised while Loading Model: %s' % str(e))
+            raise Exception()
 
     def correct_model(self, cluster_number):
         """
@@ -122,4 +121,4 @@ class FileOperation:
 
         except Exception as e:
             self.logger.info('Exception raised while finding correct model' + str(e))
-            raise e
+            raise Exception()

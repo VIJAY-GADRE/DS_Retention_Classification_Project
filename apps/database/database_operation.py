@@ -85,17 +85,17 @@ class DatabaseOperation:
                 for key in column_names.keys():
                     type = column_names[key]
                     try:
-                        conn.execute("ALTER TABLE " + table_name + f" ADD COLUMN {column_name} {data_type}".format(column_name=key, data_type=type))
+                        conn.execute("ALTER TABLE " + table_name + " ADD COLUMN {column_name} {dataType}".format(column_name=key, dataType=type))
                         self.logger.info("ALTER TABLE " + table_name + " ADD COLUMN")
                     except:
-                        conn.execute("CREATE TABLE " + table_name + f"({column_name} {data_type})".format(column_name=key, data_type=type))
+                        conn.execute("CREATE TABLE " + table_name + "({column_name} {dataType})".format(column_name=key, dataType=type))
                         self.logger.info("CREATE TABLE " + table_name + " column_name")
                 conn.close()
             self.logger.info("End of Creating Table!!!")
 
         except Exception as e:
             self.logger.exception("Exception raised while Creating Table: %s" % e)
-            raise e
+            raise Exception()
 
     def insert_data(self, database_name, table_name):
         """
@@ -175,4 +175,4 @@ class DatabaseOperation:
 
         except Exception as e:
             self.logger.exception('Exception raised while Exporting Data into CSV: %s ' % e)
-            raise e
+            raise Exception()

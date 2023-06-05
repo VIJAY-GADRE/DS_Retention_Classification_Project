@@ -65,7 +65,7 @@ class LoadValidate:
             raise KeyError
         except Exception as e:
             self.logger.exception('Exception raised while Reading values from Schema: %s' % e)
-            raise e
+            raise Exception()
         return column_names, number_of_columns
 
     def validate_column_length(self, number_of_columns):
@@ -98,7 +98,7 @@ class LoadValidate:
             raise OSError
         except Exception as e:
             self.logger.exception('Exception raised while Validating Column Length: %s' % e)
-            raise e
+            raise Exception()
 
     def validate_missing_values(self):
         """
@@ -132,7 +132,7 @@ class LoadValidate:
             raise OSError
         except Exception as e:
             self.logger.exception('Exception raised while Validating Missing Values :: %s' % e)
-            raise e
+            raise Exception()
 
     def replace_missing_values(self):
         """
@@ -159,7 +159,7 @@ class LoadValidate:
 
         except Exception as e:
             self.logger.exception('Exception raised while Replacing Missing Values with NULL: %s' % e)
-            raise e
+            raise Exception()
 
     def archive_old_files(self):
         """
@@ -240,7 +240,7 @@ class LoadValidate:
 
         except Exception as e:
             self.logger.exception('Exception raised while Archiving Old Rejected Files: %s' % e)
-            raise e
+            raise Exception()
 
     def move_processed_files(self):
         """
@@ -264,7 +264,7 @@ class LoadValidate:
 
         except Exception as e:
             self.logger.exception('Exception raised while Moving Processed Files: %s' % e)
-            raise e
+            raise Exception()
 
     def validate_trainset(self):
         """
@@ -295,7 +295,7 @@ class LoadValidate:
 
         except Exception as e:
             self.logger.exception('Exception raised while Train Data Load, Validation, and Transformation %s' % e)
-            raise e
+            raise Exception()
 
     def validate_predictset(self):
         """
@@ -326,4 +326,4 @@ class LoadValidate:
 
         except Exception as e:
             self.logger.exception('Exception raised while Predict Data Load, Validation, and Transformation %s' % e)
-            raise e
+            raise Exception()

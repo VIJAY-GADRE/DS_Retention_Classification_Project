@@ -1,8 +1,9 @@
-from apps.core.logger import Logger
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
-from sklearn.metrics import r2_score, roc_auc_score, accuracy_score
+from sklearn.metrics  import roc_auc_score,accuracy_score
+from apps.core.logger import Logger
+from sklearn.metrics import r2_score
 
 
 class ModelTuner:
@@ -72,7 +73,8 @@ class ModelTuner:
             return self.rfc
 
         except Exception as e:
-            self.logger.exception('Exception raised while finding the Best Parameters for Random Forest Classifier: %s' + str(e))
+            self.logger.exception(
+                'Exception raised while finding the Best Parameters for Random Forest Classifier: %s' + str(e))
             raise Exception()
 
     def best_params_xgboost(self, train_x, train_y):
@@ -92,8 +94,8 @@ class ModelTuner:
         try:
             self.logger.info('Start of finding the Best Parameters for XGBoost Classifier...')
             self.param_grid_xgb = {'learning_rate': [0.5, 0.1, 0.01, 0.001],
-                               'n_estimators': [10, 50, 100, 150],
-                               'max_depth': range(2, 4, 1)}
+                                   'n_estimators': [10, 50, 100, 200],
+                                   'max_depth': [3, 5, 10, 20]}
             self.grid = GridSearchCV(XGBClassifier(objective='binary:logistic'), self.param_grid_xgb, cv=5)
             self.grid.fit(train_x, train_y)
 
@@ -112,10 +114,11 @@ class ModelTuner:
             return self.xgb
 
         except Exception as e:
-            self.logger.exception('Exception raised while finding the Best Parameters for XGBoost Classifier: %s' + str(e))
+            self.logger.exception(
+                'Exception raised while finding the Best Parameters for XGBoost Classifier: %s' + str(e))
             raise Exception()
 
-    def get_best_model(self, train_x, train_y, test_x, test_y):
+    def get_best_model(self, train_x, test_x, train_y, test_y):
         """
         * method: get_best_model
         * description: To get the best model which gives the best Accuracy
@@ -156,7 +159,7 @@ class ModelTuner:
 
             self.logger.info('End of finding the Best Model!!!')
 
-            if (self.random_forest_score < self.xgboost_score):
+            if self.random_forest_score < self.xgboost_score:
                 return 'XGBoost', self.xgboost
             else:
                 return 'RandomForest', self.random_forest

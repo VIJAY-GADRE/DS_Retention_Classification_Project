@@ -104,7 +104,7 @@ class Preprocessor:
             if self.null_present:
                 df_with_null = pd.DataFrame()
                 df_with_null['columns'] = data.columns
-                df_with_null['missing_values_count'] = np.asarray(data.isna().sum())
+                df_with_null['missing values count'] = np.asarray(data.isna().sum())
                 df_with_null.to_csv(self.data_path + '_validation/' + 'null_values.csv')
             self.logger.info('End of finding the missing values!!!')
             return self.null_present
@@ -183,6 +183,7 @@ class Preprocessor:
             self.X = self.data.drop(labels=label_name, axis=1)
             self.y = self.data[label_name]
             self.logger.info('End of Splitting features and label!!!')
+            return self.X, self.y
 
         except Exception as e:
             self.logger.exception('Exception raised while splitting features and label: %s' + str(e))
@@ -242,7 +243,8 @@ class Preprocessor:
             cat_df = self.feature_encoding(data)
             data = pd.concat([data, cat_df], axis=1)
             data = self.drop_columns(data, ['salary'])
-            if self.is_null_present(data):
+            is_null_present = self.is_null_present(data)
+            if is_null_present:
                 data = self.impute_missing_values(data)
             self.X, self.y = self.split_features_label(data, label_name='left')
             self.logger.info('End of Preprocessing Training Dataset!!!')
@@ -271,7 +273,8 @@ class Preprocessor:
             cat_df = self.feature_encoding(data)
             data = pd.concat([data, cat_df], axis=1)
             data = self.drop_columns(data, ['salary'])
-            if self.is_null_present(data):
+            is_null_present = self.is_null_present(data)
+            if is_null_present:
                 data = self.impute_missing_values(data)
             data = self.final_predictset(data)
             self.logger.info('End of Preprocessing Predicting Dataset!!!')
@@ -299,7 +302,8 @@ class Preprocessor:
             cat_df = self.feature_encoding(data)
             data = pd.concat([data, cat_df], axis=1)
             data = self.drop_columns(data, ['salary'])
-            if self.is_null_present(data):
+            is_null_present = self.is_null_present(data)
+            if is_null_present:
                 data = self.impute_missing_values(data)
             data = self.final_predictset(data)
             self.logger.info('End of Preprocessing Predict Dataset!!!')
